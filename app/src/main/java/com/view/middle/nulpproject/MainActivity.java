@@ -1,12 +1,13 @@
 package com.view.middle.nulpproject;
 
 import android.content.Intent;
-import android.graphics.drawable.AnimationDrawable;
+import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
 import android.view.View;
-import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -81,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 currentText = textView.getText().toString().trim().toLowerCase();
-                goClicked();
+                funcDisplay();
             }
         });
         rec.setOnClickListener(new View.OnClickListener() {
@@ -110,7 +111,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    void goClicked() {
+    
+    
+    void funcDisplay() {
         if (!isShowing) {
 
             Timer timer = new Timer();
@@ -127,7 +130,10 @@ public class MainActivity extends AppCompatActivity {
                         public void run() {
                             if (currentCharIndex < size) {
                                 isShowing = true;
-//                        textView.setText(String.valueOf(findIndex(string[currentCharIndex++])));
+                                SpannableString ss = new SpannableString(currentText);
+                                ForegroundColorSpan fcsYellow = new ForegroundColorSpan(getResources().getColor(R.color.textAccent));
+                                ss.setSpan(fcsYellow,currentCharIndex,currentCharIndex+1,Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                                textView.setText(ss);
                                 imageView.setImageResource(letterId[findIndex(string[currentCharIndex++])]);
                             } else {
                                 cancel();
